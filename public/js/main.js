@@ -1,5 +1,6 @@
-
-// REPLACE <...> BY YOUR FIREBASE PROJECT CONFIGURATION:
+var table = $('#table1').DataTable ( {
+    "bFilter": false
+} );
 const config = {
     apiKey: "AIzaSyCqOdIjUsNL95Uc00JBmhUWgHXtWCtNTLU",
     authDomain: "health-care-iot-534c9.firebaseapp.com",
@@ -11,7 +12,13 @@ const config = {
     measurementId: "G-3ZLX17QWM7"
   };
   firebase.initializeApp(config);
-  
+
+  firebase.database().ref('data/test').on('child_added',function(snapshot) {
+    var dataSet = [1, snapshot.val()];
+    table.rows.add([dataSet]).draw();
+    });
+    
+    
   console.log("check");
   firebase.database().ref('data/test').on('value', ts_measures => {
     let values = [];
