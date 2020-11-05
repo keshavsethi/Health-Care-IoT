@@ -12,8 +12,23 @@ const config = {
   measurementId: "G-3ZLX17QWM7"
 };
 firebase.initializeApp(config);
-
-firebase.database().ref('data/test').on('child_added',function(snapshot) {
-  var dataSet = [1, snapshot.val()];
-  table.rows.add([dataSet]).draw();
+let values = [];
+let ids = [];
+firebase.database().ref('data/temp').limitToLast(20).on('value', ts_measures => {
+  ts_measures.forEach(ts_measure => {
+  values.push(ts_measure.val());
   });
+  for(i=1;i<=values.length;i++){
+      ids[i-1]=i;
+  }
+  });
+
+  firebase.database().ref('data/pulse').limitToLast(20).on('value', ts_measures => {
+    let i=0;
+    ts_measures.forEach(ts_measure => {
+      values.push(ts_measure.val());
+      var dataSet = [ids[i], values[i],ts_measure.val()];
+      table.rows.add([dataSet]).draw();
+      i++;
+      }); 
+    });
