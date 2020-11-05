@@ -23,6 +23,21 @@ const config = {
         ids[i]=i;
     }
     console.log(values);
+    let len = values.length;
+    console.log(values[len-1] );
+    if(values[len-1] > 100){
+        console.log("email check");
+        Email.send({ 
+            Host: "smtp.gmail.com", 
+            Username: "healthcare.group8@gmail.com", 
+            Password: "keshavsethi", 
+            To: 'keshav.sethi0004@gmail.com', 
+            From: "healthcare.group8@gmail.com", 
+            Subject: "Alert!!", 
+            Body: "Hope you are well, your temptature crossed thershold value, Please check!!", 
+        });
+
+    }
     // Get a reference to the DOM node that welcomes the plot drawn by Plotly.js:
     myPlotDiv = document.getElementById('myPlot');
   
