@@ -242,9 +242,7 @@ var ChatBot = function () {
 
                                 for (var i = 0; i < data.media.length; i++) {
                                     var ob = data.media[i];
-                                    content += '<div class="imgBox">' +
-                                        '<img src="' + ob.image + '" />' +
-                                        '<div class="title">' + ob.title + '</div>' +
+                                    content +=  
                                         '<div class="actions">' +
                                         '<div class="button blue" onclick="document.location.href=\'' + ob.link + '\'">Details</div>' +
                                         '<br>' +
@@ -319,11 +317,6 @@ var ChatBot = function () {
                                 if (data.Image != undefined && data.Image != '') {
 
                                     content += '<br>';
-
-                                    content += '<div class="imgBox">' +
-                                        '<img src="' + data.Image + '" />' +
-                                        '<div class="title">' + data.Heading + '</div>' +
-                                        '</div>';
 
                                 }
 

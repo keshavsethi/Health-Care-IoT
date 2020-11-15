@@ -95,6 +95,8 @@
     ChatBot.init(config);
     ChatBot.setBotName("Healthy Bot");
     ChatBot.addPattern("^hi$", "response", "Hey, my friend", undefined, "Say 'Hi' to be greeted back.");
+    ChatBot.addPattern("^hey$", "response", "Hey, my friend");
+    ChatBot.addPattern("^hello$", "response", "Hey, my friend");
     ChatBot.addPattern("^bye$", "response", "See you later buddy, Stay Fit!!", undefined, "Say 'Bye' to end the conversation.");
     ChatBot.addPattern("^Bits Pilani$", "response", "I know its magic!!");
     ChatBot.addPattern("^How is IoT course $", "response", "Its wonderfull");
