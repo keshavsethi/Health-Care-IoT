@@ -15,7 +15,7 @@ const config = {
   let count2=0;
   let count3=0;
 
-  console.log("check");
+  
   firebase.database().ref('data/temp').limitToLast(20).on('value', ts_measures => {
     let values = [];
     let ids = [];
@@ -67,7 +67,7 @@ const config = {
         width: 300
       };
       
-      Plotly.newPlot(mytempp, data1, layout1);
+      Plotly.newPlot(mytempp, data1, layout1, { responsive: true });
     // We generate x and y data necessited by Plotly.js to draw the plot
     // and its layout information as well:
     // See https://plot.ly/javascript/getting-started/
@@ -151,7 +151,7 @@ const config = {
     mytempp = document.getElementById('mypulse');
     var data1 = [{
         values: [count1, count2, count3],
-        labels: ['35-36', '36-38', '>38'],
+        labels: ['75-80', '80-85', '>85'],
         type: 'pie'
       }];
       
@@ -177,7 +177,7 @@ const config = {
             linewidth: 2
         },
         yaxis: {
-            title: 'Temprature',
+            title: 'Pulse Oximeter',
             titlefont: {
                 family: 'Times New Roman',
                 size: 14,
