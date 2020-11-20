@@ -9,7 +9,8 @@ const config = {
     measurementId: "G-3ZLX17QWM7"
   };
   firebase.initializeApp(config);
-  
+  var TEMP_THRESHOLD=30;
+  var PULSE_THRESHOLD=90;
 
   let count1=0;
   let count2=0;
@@ -61,9 +62,12 @@ firebase.database().ref('data/oxygen').on('value', ts_measures => {
 
 
 // temp reference 
+// DONE
   firebase.database().ref('data/temp').limitToLast(100).on('value', ts_measures => {
     let values = [];
+    let alertvalues=[];
     let ids = [];
+    let alertids=[];
     ts_measures.forEach(ts_measure => {
     values.push(ts_measure.val());
     });
@@ -74,7 +78,13 @@ firebase.database().ref('data/oxygen').on('value', ts_measures => {
     // and make a table with ids, temp and pulse
     // new page alert.html 
     // new js file ....
-
+    for(i=1; i<values.length; i++){
+        if(values[i]>TEMP_THRESHOLD) {
+            alertvalues.push(values[i]);
+            alertids.push(values[i]);
+        }
+    }
+    
     if(values[18] > 39){
         console.log("email check");
         Email.send({ 
