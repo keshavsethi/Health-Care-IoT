@@ -227,7 +227,7 @@ firebase.database().ref('data/oxygen').on('value', ts_measures => {
         width: 300
       };
       
-      Plotly.newPlot(mytempp, data1, layout1);
+      Plotly.newPlot(mytempp, data1, layout1,  { responsive: true });
     // We generate x and y data necessited by Plotly.js to draw the plot
     // and its layout information as well:
     // See https://plot.ly/javascript/getting-started/
