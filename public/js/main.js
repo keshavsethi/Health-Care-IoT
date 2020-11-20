@@ -14,9 +14,18 @@ const config = {
   let count1=0;
   let count2=0;
   let count3=0;
+  let time = [];
+  let data_count=0;
+  firebase.database().ref('data/time').limitToLast(100).on('value', ts_measures => {
+    ts_measures.forEach(ts_measure => {
+    time.push(ts_measure.val());
+    data_count++;
+    });
+    document.getElementById("data_head").innerHTML = data_count;
 
-  
-  firebase.database().ref('data/temp').limitToLast(20).on('value', ts_measures => {
+});  
+// temp reference 
+  firebase.database().ref('data/temp').limitToLast(100).on('value', ts_measures => {
     let values = [];
     let ids = [];
     ts_measures.forEach(ts_measure => {
@@ -25,10 +34,12 @@ const config = {
     for(i=1;i<=values.length;i++){
         ids[i]=i;
     }
-    console.log(values);
-    let len = values.length;
-    console.log(values[len-1] );
-    if(values[len-1] > 100){
+    // loop onn values and push in new array if more than some threshold!!
+    // and make a table with ids, temp and pulse
+    // new page alert.html 
+    // new js file ....
+    
+    if(values[18] > 39){
         console.log("email check");
         Email.send({ 
             Host: "smtp.gmail.com", 
@@ -39,15 +50,14 @@ const config = {
             Subject: "Alert!!", 
             Body: "Hope you are well, your temptature crossed thershold value, Please check!!", 
         });
-
     }
-    document.getElementById("temprature_head").innerHTML = values[len-1];
+    document.getElementById("temprature_head").innerHTML = values[18];
     // Get a reference to the DOM node that welcomes the plot drawn by Plotly.js:
     for(i=0;i<values.length;i++){
-        if(values[i] > 35 && values[i] < 36 ){
+        if(values[i] > 30 && values[i] < 32.9 ){
             count1++;
         }
-        else if(values[i] > 36 && values[i] < 38 ){
+        else if(values[i] > 32.9 && values[i] < 34 ){
             count2++;
         }
         else {
@@ -58,7 +68,7 @@ const config = {
     mytempp = document.getElementById('mytemp');
     var data1 = [{
         values: [count1, count2, count3],
-        labels: ['35-36', '36-38', '>38'],
+        labels: ['30-32.9', '32.9-34', '>34'],
         type: 'pie'
       }];
       
@@ -72,14 +82,15 @@ const config = {
     // and its layout information as well:
     // See https://plot.ly/javascript/getting-started/
     const data = [{
-        x: ids,
-        y: values
+        x: time,
+        y: values,
     }];
   
     const layout = {
         height: 300,
         width: 700,
         xaxis: {
+            title:'Time',
             linecolor: 'black',
             linewidth: 2
         },
@@ -107,19 +118,14 @@ const config = {
   
 
 
-  firebase.database().ref('data/pulse').limitToLast(20).on('value', ts_measures => {
+  firebase.database().ref('data/pulse').limitToLast(80).on('value', ts_measures => {
     let values = [];
     let ids = [];
     ts_measures.forEach(ts_measure => {
     values.push(ts_measure.val());
     });
-    for(i=1;i<=values.length;i++){
-        ids[i]=i;
-    }
     console.log(values);
-    let len = values.length;
-    console.log(values[len-1] );
-    if(values[len-1] > 100){
+    if(values[90] > 78){
         console.log("email check");
         Email.send({ 
             Host: "smtp.gmail.com", 
@@ -128,13 +134,13 @@ const config = {
             To: 'keshav.sethi0004@gmail.com', 
             From: "healthcare.group8@gmail.com", 
             Subject: "Alert!!", 
-            Body: "Hope you are well, your temptature crossed thershold value, Please check!!", 
+            Body: "Hope you are well, your Pulse bpm crossed thershold value, Please check!!", 
         });
 
     }
-    document.getElementById("pulse_head").innerHTML = values[len-1];
+    document.getElementById("pulse_head").innerHTML = values[79];
 
-    $('.progress-bar').css('width', values[len-1]+'%').attr('aria-valuenow', values[len-1])
+   $('.progress-bar').css('width', (values[79]%70)*10+'%').attr('aria-valuenow', (values[79]%70)*10)
     for(i=0;i<values.length;i++){
         if(values[i] > 75 && values[i] < 80 ){
             count1++;
@@ -165,7 +171,7 @@ const config = {
     // and its layout information as well:
     // See https://plot.ly/javascript/getting-started/
     const data = [{
-        x: ids,
+        x: time,
         y: values
     }];
   
@@ -195,13 +201,16 @@ const config = {
     Plotly.newPlot(myPlotDiv, data, layout, { responsive: true });
   });
 
-let data_count =0;
-  firebase.database().ref('data/temp').on('value', ts_measures => {
 
-    ts_measures.forEach(ts_measure => {
-    data_count++;
-    });
-    document.getElementById("data_head").innerHTML = data_count;
 
-  });
 
+
+
+
+
+
+
+
+
+
+  

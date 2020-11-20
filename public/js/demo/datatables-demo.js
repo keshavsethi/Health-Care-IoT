@@ -1,6 +1,10 @@
 var table = $('#table1').DataTable ( {
-  "bFilter": false
+
 } );
+var table1 = $('#alert').DataTable ( {
+
+} );
+
 const config = {
   apiKey: "AIzaSyCqOdIjUsNL95Uc00JBmhUWgHXtWCtNTLU",
   authDomain: "health-care-iot-534c9.firebaseapp.com",
@@ -23,6 +27,7 @@ firebase.database().ref('data/temp').limitToLast(20).on('value', ts_measures => 
   }
   });
 
+  
   firebase.database().ref('data/pulse').limitToLast(20).on('value', ts_measures => {
     let i=0;
     ts_measures.forEach(ts_measure => {

@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-
   <title>Health Care IoT</title>
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -27,10 +25,10 @@
 	<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-app.js"></script>
 	<!-- Add additional services that you want to use -->
 	<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-database.js"></script>
+  <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
 
 	<!-- Include Plotly.js -->
 	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
 
 <body id="page-top">
 
@@ -50,7 +48,7 @@
       <hr class="sidebar-divider my-0">
 
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" href="dashboard.html">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
@@ -65,7 +63,7 @@
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
           <span>Information</span>
@@ -103,7 +101,6 @@
         </div>
       </li>
 
-
       <!-- Nav Item - Tables -->
       <li class="nav-item">
         <a class="nav-link" href="tables.html">
@@ -125,7 +122,8 @@
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
       </div>
 
-    </ul>    <!-- End of Sidebar -->
+    </ul>
+    <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -175,9 +173,6 @@
                 </form>
               </div>
             </li>
-
-            <div class="topbar-divider d-none d-sm-block"></div>
-
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -216,8 +211,11 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Cards</h1>
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            <a href="#report" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Checkout Graphs</a>
           </div>
+
+          <!-- Content Row -->
           <div class="row">
 
             <!-- Temperature Card Example -->
@@ -297,30 +295,35 @@
             </div>
           </div>
 
+          <!-- Content Row -->
 
-          <div class="row">
+          <div class="row" id="report">
 
-            <div class="col-lg-6">
-
-
-              <!-- Basic Card Example -->
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Body Temperature Norms</h6>
-                </div>
-                <div class="card-body">
-                  The average normal body temperature is generally accepted as 98.6°F (37°C). Some studies have shown that the "normal" body temperature can have a wide range, from 97°F (36.1°C) to 99°F (37.2°C). A temperature over 100.4°F (38°C) most often means you have a fever caused by an infection or illness.                </div>
-              </div>                  
-
-            </div>
-
-            <div class="col-lg-6">
-
-              <!-- Dropdown Card Example -->
+            <!-- Area Chart -->
+            <div class="col-xl-8 col-lg-7">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Pulse Rate Norms</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Temperature Plot (<sup>.</sup>c)</h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div id="myPlot" ></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pie Chart -->
+            <div class="col-xl-4 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Data Distribution</h6>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -336,47 +339,133 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                  A normal resting heart rate for adults ranges from 60 to 100 beats per minute. Generally, a lower heart rate at rest implies more efficient heart function and better cardiovascular fitness. For example, a well-trained athlete might have a normal resting heart rate closer to 40 beats per minute
+                    <div id="mytemp" ></div>
                 </div>
               </div>
-    
-              <!-- Collapsable Card Example -->
-
-              <!-- Collapsable Card Example -->
-
+            </div>
+            
           </div>
+
+          <!-- Content Row -->
+          <div id='myChart'><a class="zc-ref" ></a></div>
+
           <div class="row">
-            <div class="col-lg-6">
-          <div class="card shadow mb-4">
-            <!-- Card Header - Accordion -->
-            <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-              <h6 class="m-0 font-weight-bold text-primary">Sensors Used </h6>
-            </a>
-            <!-- Card Content - Collapse -->
-            <div class="collapse show" id="collapseCardExample">
-              <div class="card-body">
-                <img src="./img/tsensor.jpg" width=25% height="25%">
-                MLX90614 ESF Non-Contact Human Body Infrared Temperature Measurement Module
+
+            <!-- Area Chart -->
+            <div class="col-xl-8 col-lg-7">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Oximeter Pulse(bpm) Plot</h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Dropdown Header:</div>
+                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="chart-area">
+                    <div id="pulseplot"></div>
+                  </div>
+                </div>
               </div>
             </div>
+
+            <!-- Pie Chart -->
+            <div class="col-xl-4 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Data Distribution</h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Dropdown Header:</div>
+                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div id="mypulse" ></div>
+                </div>
+              </div>
+            </div>
+            
           </div>
-          </div>
-          <div class="col-lg-6">
-          <div class="card shadow mb-4">
-            <!-- Card Header - Accordion -->
-            <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-              <h6 class="m-0 font-weight-bold text-primary">Sensors Used </h6>
-            </a>
-            <!-- Card Content - Collapse -->
-            <div class="collapse show" id="collapseCardExample">
-              <div class="card-body">
-                <img src="./img/psensor.jpg" width=25% height="25%">
-                MAX30100 Pulse Oximeter Heart Rate Sensor Module                  </div>
+
+          <!-- Content Row -->
+          <div class="row">
+
+            <!-- Content Column -->
+            <div class="col-lg-6 mb-4">
+
+
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Benifits of Temprature Sensor </h6>
+                </div>
+                <div class="card-body">
+                  <div class="text-center">
+                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_fitness_tracker_3033.svg" alt="">
+                  </div>
+                  <p>The measurement of temperature is extremely common.
+
+                    There are many temperature measuring devices in the average home. Some of these will use thermistors. Here are some of the advantages of thermistors for temperature measurement.
+                    
+                    Thermistors are a type of temperature sensor; their electrical resistance varies as a function of their temperature. They are often used in applications such as fire alarms, refrigerators, ovens and boilers. They measure temperature by assessing the resistance passing through them and converting it into a temperature reading.
+                    A German doctor in the 19th century set the standard at 98.6 F, but more recent studies say the baseline for most people is closer to 98.2 F.
+                    For a typical adult, body temperature can be anywhere from 97 F to 99 F. Babies and children have a little higher range: 97.9 F to 100.4 F.
+                    Your temperature doesn’t stay same all day, and it will vary throughout your lifetime, too. 
+                    If your temperature is 103 F or higher or if you’ve had a fever for more than 3 days, call your doctor. Also call if you have a fever with symptoms like severe throat swelling, vomiting, headache, chest pain, stiff neck or rash.
+                    For children, fevers are a bit more complicated. Call your pediatrician in such a situation .
+                    </p>
+                </div>
+              </div>             
+
+            </div>
+
+            <div class="col-lg-6 mb-4">
+
+              <!-- Illustrations -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
+                </div>
+                <div class="card-body">
+                  <div class="text-center">
+                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_yoga_248n.svg" alt="">
+                  </div>
+                  <p>Every system and organ in the body needs oxygen to survive. Without oxygen, cells begin to malfunction and eventually die. Cell death can cause severe symptoms and ultimately lead to organ failure.
+
+                    The body transports oxygen to the organs by filtering it through the lungs. The lungs then distribute oxygen into the blood via hemoglobin proteins in red blood cells. These proteins provide oxygen to the rest of the body.
+                    
+                    Pulse oximetry measures the percentage of oxygen in hemoglobin proteins, called oxygen saturation. Oxygen saturation usually indicates how much oxygen is getting to the organs.
+                    
+                    Normal oxygen saturation levels are between 95 and 100 percent. Oxygen saturation levels below 90 percent are considered abnormally low and can be a clinical emergency.</p>
+                  <a target="_blank" rel="nofollow" href="./tables.html">Browse Data for these Sensors &rarr;</a>
+                </div>
+              </div>
+
+              <!-- Approach -->
+     
+
             </div>
           </div>
-          </div>
-</div>
-        </div>
+
         </div>
         <!-- /.container-fluid -->
 
@@ -387,7 +476,7 @@
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2020</span>
+            <span>In Reference to IoT Project 2020 &copy; IoT Course Group 8 </span>
           </div>
         </div>
       </footer>
@@ -423,8 +512,28 @@
     </div>
   </div>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
+  <div class="modal fade" id="groupDetails" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Group 8(Health Care Iot)</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Keshav Sethi 2017B3A30657P <br>
+          Divesh 2017B4A30875P<br>
+          Sarthak 2017A3PS0320P
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="vendor/jquery/jquery.min.js"></script>  
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Core plugin JavaScript-->
@@ -433,6 +542,12 @@
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
   <script src="js/main.js"></script>
+  <!-- Page level plugins -->
+  <script src="vendor/chart.js/Chart.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="js/demo/chart-area-demo.js"></script>
+  <script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
 
