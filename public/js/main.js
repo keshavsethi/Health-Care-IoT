@@ -9,8 +9,8 @@ const config = {
     measurementId: "G-3ZLX17QWM7"
   };
   firebase.initializeApp(config);
-  var TEMP_THRESHOLD=35;
-  var PULSE_THRESHOLD=92;
+  var TEMP_THRESHOLD=30;
+  var PULSE_THRESHOLD=90;
 
   let count1=0;
   let count2=0;

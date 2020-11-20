@@ -1,7 +1,7 @@
 var table = $('#table1').DataTable ( {
 
 } );
-var table1 = $('#alert').DataTable ( {
+var alerttable = $('#alert').DataTable ( {
 
 } );
 

@@ -1,6 +1,3 @@
-var table = $('#table1').DataTable ( {
-
-} );
 var alerttable = $('#alert').DataTable ( {
 
 } );
@@ -26,14 +23,21 @@ firebase.database().ref('data/temp').limitToLast(20).on('value', ts_measures => 
       ids[i-1]=i;
   }
   });
+  var TEMP_THRESHOLD=30;
+  var PULSE_THRESHOLD=73;
 
   
   firebase.database().ref('data/pulse').limitToLast(20).on('value', ts_measures => {
     let i=0;
     ts_measures.forEach(ts_measure => {
-      values.push(ts_measure.val());
-      var dataSet = [ids[i], values[i],ts_measure.val()];
-      alerttable.rows.add([dataSet]).draw();
-      i++;
+      let value=ts_measure.val();
+      if(value>PULSE_THRESHOLD) {
+        values.push(value);
+        if(values[i]>TEMP_THRESHOLD) {
+          var dataSet = [ids[i], values[i],ts_measure.val()];
+          alerttable.rows.add([dataSet]).draw();
+        }
+        i++;
+        }
       }); 
     });
