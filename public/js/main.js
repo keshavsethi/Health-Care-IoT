@@ -24,6 +24,42 @@ const config = {
     document.getElementById("data_head").innerHTML = data_count;
 
 });  
+let oxygen;
+firebase.database().ref('data/oxygen').on('value', ts_measures => {
+    ts_measures.forEach(ts_measure => {
+    oxygen = ts_measure.val();
+    });
+    document.getElementById("o2_head").innerHTML = oxygen;
+    var opts = {
+        lines: 12, // The number of lines to draw
+        angle: 0, // The span of the gauge arc
+        lineWidth: 0.46, // The line thickness
+        pointer: {
+          length: 0.68, // The radius of the inner circle
+          strokeWidth: 0.035, // The thickness
+          color: '#424242' // Fill color
+        },
+        limitMax: false,     // If true, the pointer will not go past the end of the gauge
+        colorStart: '#363636',   // Colors
+        colorStop: '#03A9F4',    // just experiment with them
+        strokeColor: '#f5f5f5',
+        // to see which ones work best for you
+        generateGradient: true,
+        highDpiSupport: true     // High resolution support
+      };
+      console.log(document.getElementById('maxVal').textContent);
+      var target = document.getElementById('canvas-preview'); // your canvas element
+      var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+      gauge.maxValue = document.getElementById('maxVal').textContent; // set max gauge value
+      gauge.animationSpeed = 28; // set animation speed (32 is default value)
+      gauge.set((oxygen%90)*10);
+      gauge.setTextField(document.getElementById("preview-textfield"));
+      
+      
+
+});  
+
+
 // temp reference 
   firebase.database().ref('data/temp').limitToLast(100).on('value', ts_measures => {
     let values = [];
@@ -38,7 +74,7 @@ const config = {
     // and make a table with ids, temp and pulse
     // new page alert.html 
     // new js file ....
-    
+
     if(values[18] > 39){
         console.log("email check");
         Email.send({ 
@@ -200,8 +236,6 @@ const config = {
     // At last we plot data :-)
     Plotly.newPlot(myPlotDiv, data, layout, { responsive: true });
   });
-
-
 
 
 

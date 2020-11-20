@@ -16,7 +16,26 @@
 </head>
 <script src="vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<style>
 
+  .gauge{
+    position: relative;
+  }
+  #canvas-preview{
+    background-color: transparent;
+    width:85vw;
+    height: 30vh;
+  }
+  #minVal{
+    display: none;
+    position: fixed;
+    left: 18%;
+    color: white;
+  }
+  #maxVal, #preview-textfield{
+    display: none;
+  }
+</style>
 <script src= 
 "https://smtpjs.com/v3/smtp.js"> 
 </script> 
@@ -111,7 +130,7 @@
       <li class="nav-item">
         <a class="nav-link" href="demo/chatbot.html">
           <i class="fas fa-fw fa-table"></i>
-          <span>Chat Bot (New)</span></a>
+          <span>Chat Bot </span></a>
       </li>
 
       <!-- Divider -->
@@ -328,13 +347,6 @@
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
                   </div>
                 </div>
                 <!-- Card Body -->
@@ -347,8 +359,30 @@
           </div>
 
           <!-- Content Row -->
-          <div id='myChart'><a class="zc-ref" ></a></div>
-
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Oxygen Level <span id="o2_head"></span></h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="gauge">
+                    <canvas id="canvas-preview"></canvas>
+                    <div id="minVal">0</div>
+                    <div id="maxVal">100</div>
+                    <div id="preview-textfield">0</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="row">
 
             <!-- Area Chart -->
@@ -361,13 +395,6 @@
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
                   </div>
                 </div>
                 <!-- Card Body -->
@@ -389,13 +416,6 @@
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
                   </div>
                 </div>
                 <!-- Card Body -->
@@ -541,6 +561,7 @@
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
+  <script src='https://bernii.github.io/gauge.js/dist/gauge.min.js'></script>
   <script src="js/main.js"></script>
   <!-- Page level plugins -->
   <script src="vendor/chart.js/Chart.min.js"></script>
