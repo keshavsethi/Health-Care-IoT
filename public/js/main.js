@@ -38,16 +38,16 @@ const config = {
     for(i=1;i<=values.length;i++){
         ids[i]=i;
     }
+    // loop onn values and push in new array if more than some threshold!!
+    // and make a table with ids, temp and pulse
+    // new page alert.html 
+    // new js file ....
     for(i=1; i<values.length; i++){
         if(values[i]>TEMP_THRESHOLD) {
             alertvalues.push(values[i]);
             alertids.push(values[i]);
         }
     }
-    // loop onn values and push in new array if more than some threshold!!
-    // and make a table with ids, temp and pulse
-    // new page alert.html 
-    // new js file ....
     
     if(values[18] > 39){
         console.log("email check");
