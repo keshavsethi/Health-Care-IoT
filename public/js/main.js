@@ -1,3 +1,14 @@
+function send(){
+Email.send({ 
+    Host: "smtp.gmail.com", 
+    Username: "healthcare.group8@gmail.com", 
+    Password: "keshavsethi", 
+    To: 'keshav.sethi0004@gmail.com', 
+    From: "healthcare.group8@gmail.com", 
+    Subject: "Alert!!", 
+    Body: "Hope you are well, your temptature crossed thershold value, Please check!!", 
+});}
+//send();
 const config = {
     apiKey: "AIzaSyCqOdIjUsNL95Uc00JBmhUWgHXtWCtNTLU",
     authDomain: "health-care-iot-534c9.firebaseapp.com",
@@ -9,7 +20,7 @@ const config = {
     measurementId: "G-3ZLX17QWM7"
   };
   firebase.initializeApp(config);
-  var TEMP_THRESHOLD=30;
+  var TEMP_THRESHOLD=32;
   var PULSE_THRESHOLD=90;
 
   let count1=0;
@@ -21,10 +32,10 @@ const config = {
     ts_measures.forEach(ts_measure => {
     time.push(ts_measure.val());
     data_count++;
-    });
     document.getElementById("data_head").innerHTML = data_count;
-
+    });
 });  
+
 let oxygen;
 firebase.database().ref('data/oxygen').on('value', ts_measures => {
     ts_measures.forEach(ts_measure => {
@@ -48,13 +59,12 @@ firebase.database().ref('data/oxygen').on('value', ts_measures => {
         generateGradient: true,
         highDpiSupport: true     // High resolution support
       };
-      console.log(document.getElementById('maxVal').textContent);
       var target = document.getElementById('canvas-preview'); // your canvas element
-      var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-      gauge.maxValue = document.getElementById('maxVal').textContent; // set max gauge value
-      gauge.animationSpeed = 28; // set animation speed (32 is default value)
+      var gauge = new Gauge(target).setOptions(opts); 
+      gauge.maxValue = document.getElementById('maxVal').textContent; 
+      gauge.animationSpeed = 32; // set animation speed (32 is default value)
       gauge.set((oxygen%90)*10);
-      gauge.setTextField(document.getElementById("preview-textfield"));
+      gauge.setTextField((oxygen%90)*10);
       
       
 
@@ -70,6 +80,7 @@ firebase.database().ref('data/oxygen').on('value', ts_measures => {
     let alertids=[];
     ts_measures.forEach(ts_measure => {
     values.push(ts_measure.val());
+    document.getElementById("temprature_head").innerHTML= ts_measure.val();
     });
     for(i=1;i<=values.length;i++){
         ids[i]=i;
@@ -85,7 +96,7 @@ firebase.database().ref('data/oxygen').on('value', ts_measures => {
         }
     }
     
-    if(values[18] > 39){
+    if(values[values.length-1] > 34){
         console.log("email check");
         Email.send({ 
             Host: "smtp.gmail.com", 
@@ -97,7 +108,7 @@ firebase.database().ref('data/oxygen').on('value', ts_measures => {
             Body: "Hope you are well, your temptature crossed thershold value, Please check!!", 
         });
     }
-    document.getElementById("temprature_head").innerHTML = values[18];
+
     // Get a reference to the DOM node that welcomes the plot drawn by Plotly.js:
     for(i=0;i<values.length;i++){
         if(values[i] > 30 && values[i] < 32.9 ){
@@ -128,7 +139,7 @@ firebase.database().ref('data/oxygen').on('value', ts_measures => {
     // and its layout information as well:
     // See https://plot.ly/javascript/getting-started/
     const data = [{
-        x: time,
+        x: ids,
         y: values,
     }];
   
@@ -165,13 +176,17 @@ firebase.database().ref('data/oxygen').on('value', ts_measures => {
 
 
   firebase.database().ref('data/pulse').limitToLast(80).on('value', ts_measures => {
-    let values = [];
+    let values2 = [];
+    values2[0]=76;
     let ids = [];
     ts_measures.forEach(ts_measure => {
-    values.push(ts_measure.val());
+    values2.push(ts_measure.val());
+    document.getElementById("pulse_head").innerHTML = ts_measure.val();
     });
-    console.log(values);
-    if(values[90] > 78){
+    for(i=1;i<=values2.length;i++){
+        ids[i]=i;
+    }
+    if(values2[79] > 78){
         console.log("email check");
         Email.send({ 
             Host: "smtp.gmail.com", 
@@ -184,14 +199,14 @@ firebase.database().ref('data/oxygen').on('value', ts_measures => {
         });
 
     }
-    document.getElementById("pulse_head").innerHTML = values[79];
+    
 
-   $('.progress-bar').css('width', (values[79]%70)*10+'%').attr('aria-valuenow', (values[79]%70)*10)
-    for(i=0;i<values.length;i++){
-        if(values[i] > 75 && values[i] < 80 ){
+   $('.progress-bar').css('width', (values2[79]%70)*10+'%').attr('aria-valuenow', (values2[79]%70)*10)
+    for(i=0;i<values2.length;i++){
+        if(values2[i] > 75 && values2[i] < 80 ){
             count1++;
         }
-        else if(values[i] > 80 && values[i] < 85 ){
+        else if(values2[i] > 80 && values2[i] < 85 ){
             count2++;
         }
         else {
@@ -217,8 +232,8 @@ firebase.database().ref('data/oxygen').on('value', ts_measures => {
     // and its layout information as well:
     // See https://plot.ly/javascript/getting-started/
     const data = [{
-        x: time,
-        y: values
+        x: ids,
+        y: values2
     }];
   
     const layout = {

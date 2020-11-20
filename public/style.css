@@ -966,3 +966,13 @@ a {
   white-space: nowrap;
   width: 1px;
 }
+@media screen and (max-width: 600px) {
+  iframe {
+    visibility: hidden;
+    clear: both;
+    float: left;
+    margin: 10px auto 5px 20px;
+    width: 28%;
+    display: none;
+  }
+}

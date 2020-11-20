@@ -33,7 +33,7 @@
         }
         .button {
             display: inline-block;
-            background-color: darkcyan;
+            background-color: rgb(53, 84, 255);
             color: #fff;
             padding: 8px;
             cursor: pointer;
@@ -55,10 +55,9 @@
 
 <script src="../js/chatbot.js"></script>
 <link rel="stylesheet" type="text/css" href="../css/chatbot.css" />
-
 <div id="demo">
     <div id="chatBotCommandDescription"></div>
-    <input id="humanInput" type="text" placeholder="Say something" />
+    <input id="humanInput" type="text" placeholder="Hey I am healthy Bot, How tou doin?" />
 
     <div class="button" onclick="if (!ChatBot.playConversation(sampleConversation,4000)) {alert('conversation already running');};">Play some sample conversations!</div>
     <div class="button" onclick="$('#chatBotCommandDescription').slideToggle();" style="margin-right:10px">Check what can I say?</div>
