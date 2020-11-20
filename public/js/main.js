@@ -9,7 +9,8 @@ const config = {
     measurementId: "G-3ZLX17QWM7"
   };
   firebase.initializeApp(config);
-  
+  var TEMP_THRESHOLD=35;
+  var PULSE_THRESHOLD=92;
 
   let count1=0;
   let count2=0;
@@ -25,14 +26,23 @@ const config = {
 
 });  
 // temp reference 
+// DONE
   firebase.database().ref('data/temp').limitToLast(100).on('value', ts_measures => {
     let values = [];
+    let alertvalues=[];
     let ids = [];
+    let alertids=[];
     ts_measures.forEach(ts_measure => {
     values.push(ts_measure.val());
     });
     for(i=1;i<=values.length;i++){
         ids[i]=i;
+    }
+    for(i=1; i<values.length; i++){
+        if(values[i]>TEMP_THRESHOLD) {
+            alertvalues.push(values[i]);
+            alertids.push(values[i]);
+        }
     }
     // loop onn values and push in new array if more than some threshold!!
     // and make a table with ids, temp and pulse
