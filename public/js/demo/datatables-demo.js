@@ -18,7 +18,7 @@ const config = {
 firebase.initializeApp(config);
 let values = [];
 let ids = [];
-firebase.database().ref('data/temp').limitToLast(20).on('value', ts_measures => {
+firebase.database().ref('data/temp').limitToLast(200).on('value', ts_measures => {
   ts_measures.forEach(ts_measure => {
   values.push(ts_measure.val());
   });
