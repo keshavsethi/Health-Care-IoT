@@ -18,6 +18,8 @@ const config = {
 firebase.initializeApp(config);
 let values = [];
 let ids = [];
+let time= [];
+
 firebase.database().ref('data/temp').limitToLast(200).on('value', ts_measures => {
   ts_measures.forEach(ts_measure => {
   values.push(ts_measure.val());
@@ -27,12 +29,17 @@ firebase.database().ref('data/temp').limitToLast(200).on('value', ts_measures =>
   }
   });
 
-  
-  firebase.database().ref('data/pulse').limitToLast(20).on('value', ts_measures => {
+  firebase.database().ref('data/time').limitToLast(200).on('value', ts_measures => {
+    ts_measures.forEach(ts_measure => {
+    time.push(ts_measure.val());
+    });
+  });
+    
+  firebase.database().ref('data/pulse').limitToLast(200).on('value', ts_measures => {
     let i=0;
     ts_measures.forEach(ts_measure => {
       values.push(ts_measure.val());
-      var dataSet = [ids[i], values[i],ts_measure.val()];
+      var dataSet = [time[i], values[i],ts_measure.val()];
       table.rows.add([dataSet]).draw();
       i++;
       }); 

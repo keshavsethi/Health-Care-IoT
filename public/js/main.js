@@ -20,7 +20,7 @@ const config = {
     measurementId: "G-3ZLX17QWM7"
   };
   firebase.initializeApp(config);
-  var TEMP_THRESHOLD=32;
+  var TEMP_THRESHOLD=33;
   var PULSE_THRESHOLD=90;
 
   let count1=0;
@@ -31,8 +31,6 @@ const config = {
   firebase.database().ref('data/time').limitToLast(100).on('value', ts_measures => {
     ts_measures.forEach(ts_measure => {
     time.push(ts_measure.val());
-    data_count++;
-    document.getElementById("data_head").innerHTML = data_count;
     });
 });  
 
@@ -43,34 +41,35 @@ firebase.database().ref('data/oxygen').on('value', ts_measures => {
     });
     document.getElementById("o2_head").innerHTML = oxygen;
     var opts = {
-        lines: 12, // The number of lines to draw
-        angle: 0, // The span of the gauge arc
-        lineWidth: 0.46, // The line thickness
+        lines: 12,
+        angle: 0,
+        lineWidth: 0.46, 
         pointer: {
-          length: 0.68, // The radius of the inner circle
-          strokeWidth: 0.035, // The thickness
-          color: '#424242' // Fill color
+          length: 0.68, 
+          strokeWidth: 0.035, 
+          color: '#424242' 
         },
-        limitMax: false,     // If true, the pointer will not go past the end of the gauge
-        colorStart: '#363636',   // Colors
-        colorStop: '#03A9F4',    // just experiment with them
+        limitMax: false,    
+        colorStart: '#363636',   
+        colorStop: '#03A9F4',    
         strokeColor: '#f5f5f5',
-        // to see which ones work best for you
         generateGradient: true,
-        highDpiSupport: true     // High resolution support
+        highDpiSupport: true    
       };
-      var target = document.getElementById('canvas-preview'); // your canvas element
+      var target = document.getElementById('canvas-preview'); 
       var gauge = new Gauge(target).setOptions(opts); 
       gauge.maxValue = document.getElementById('maxVal').textContent; 
-      gauge.animationSpeed = 32; // set animation speed (32 is default value)
+      gauge.animationSpeed = 32;
       gauge.set((oxygen%90)*10);
       gauge.setTextField((oxygen%90)*10);
-      
-      
-
 });  
 
-
+firebase.database().ref('data/temp').on('value', ts_measures => {
+    ts_measures.forEach(ts_measure => {
+    data_count++;
+    document.getElementById("data_head").innerHTML = data_count;
+    });
+});
 // temp reference 
 // DONE
   firebase.database().ref('data/temp').limitToLast(100).on('value', ts_measures => {
@@ -170,12 +169,7 @@ firebase.database().ref('data/oxygen').on('value', ts_measures => {
     Plotly.newPlot(myPlotDiv, data, layout, { responsive: true });
   });
 
-
-
-  
-
-
-  firebase.database().ref('data/pulse').limitToLast(80).on('value', ts_measures => {
+  firebase.database().ref('data/pulse').limitToLast(30).on('value', ts_measures => {
     let values2 = [];
     values2[0]=76;
     let ids = [];
@@ -186,7 +180,7 @@ firebase.database().ref('data/oxygen').on('value', ts_measures => {
     for(i=1;i<=values2.length;i++){
         ids[i]=i;
     }
-    if(values2[79] > 78){
+    if(values2[29] > 78){
         console.log("email check");
         Email.send({ 
             Host: "smtp.gmail.com", 
@@ -201,7 +195,7 @@ firebase.database().ref('data/oxygen').on('value', ts_measures => {
     }
     
 
-   $('.progress-bar').css('width', (values2[79]%70)*10+'%').attr('aria-valuenow', (values2[79]%70)*10)
+   $('.progress-bar').css('width', (values2[29]%70)*10+'%').attr('aria-valuenow', (values2[29]%70)*10)
     for(i=0;i<values2.length;i++){
         if(values2[i] > 75 && values2[i] < 80 ){
             count1++;

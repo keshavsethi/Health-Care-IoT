@@ -15,7 +15,7 @@ const config = {
 firebase.initializeApp(config);
 let values = [];
 let ids = [];
-firebase.database().ref('data/temp').limitToLast(20).on('value', ts_measures => {
+firebase.database().ref('data/temp').limitToLast(200).on('value', ts_measures => {
   ts_measures.forEach(ts_measure => {
   values.push(ts_measure.val());
   });
@@ -23,11 +23,11 @@ firebase.database().ref('data/temp').limitToLast(20).on('value', ts_measures => 
       ids[i-1]=i;
   }
   });
-  var TEMP_THRESHOLD=30;
+  var TEMP_THRESHOLD=33;
   var PULSE_THRESHOLD=73;
 
   
-  firebase.database().ref('data/pulse').limitToLast(20).on('value', ts_measures => {
+  firebase.database().ref('data/pulse').limitToLast(200).on('value', ts_measures => {
     let i=0;
     ts_measures.forEach(ts_measure => {
       let value=ts_measure.val();
